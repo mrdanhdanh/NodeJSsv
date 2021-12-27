@@ -17,6 +17,7 @@
             width: 100%;
             height: 100px;
             overflow-y: scroll;
+            overflow-wrap: anywhere;
             background-color: #00ff44;
         }
         .right {
@@ -25,7 +26,9 @@
     </style>
 </head>
 <body>
-    <div id="content" class="scroll"></div>
+    <div id="content" class="scroll">
+        <div id="message"></div>
+    </div>
     <form action="">
         Tên: <input type="text" name="ten" id="ten" required="required"><br>
         Nội dung: <input type="text" name="mes" id="mes" required="required">
@@ -42,7 +45,7 @@
 
         socket.on('Server-send-data', function(name, mess){
             
-            $("#content").append("<p>"+ name + ": "+ mess +"</p>");
+            $("#message").append("<p>"+ name + ": "+ mess +"</p>");
         })
         socket.on('Server-send-color', function(color){
             $("#content").css("background-color", color);
@@ -56,8 +59,8 @@
                 if (name=='' || mess=='') {
                     alert('vui long nhap ten va noi dung chat')
                 } else {
-                    $("#content").append("<p class='right'>"+ mess +"<br></p>");
-                    socket.emit("Client-send-data", name, mess, "red");
+                    $("#message").append("<p class='right'>"+ mess +"<br></p>");
+                    socket.emit("Client-send-data", name, mess);
                 }
                 
         })

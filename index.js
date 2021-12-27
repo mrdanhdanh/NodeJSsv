@@ -16,6 +16,14 @@ io.on('connection', function(socket){
 
     socket.on('disconnect', function(){
         console.log(socket.id + 'ngat ket noi');
+    });
+
+    socket.on('Client-send-data', function(name, mess){
+        socket.broadcast.emit('Server-send-data', name, mess);
+    })
+
+    socket.on('Color-data', function(color){
+        io.sockets.emit('Server-send-color', color);
     })
 })
 

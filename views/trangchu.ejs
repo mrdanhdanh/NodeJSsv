@@ -5,15 +5,75 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style type="text/css">
+        p {
+            margin: 0;
+        }
+        .scroll {
+            display: block;
+            border: 0px solid red;
+            padding: 5px;
+            margin-top: 5px;
+            width: 100%;
+            height: 100px;
+            overflow-y: scroll;
+            background-color: #00ff44;
+        }
+        .right {
+            text-align: right;
+        }
+    </style>
 </head>
 <body>
-    Hello World!!
+    <div id="content" class="scroll"></div>
+    <form action="">
+        Tên: <input type="text" name="ten" id="ten" required="required"><br>
+        Nội dung: <input type="text" name="mes" id="mes" required="required">
+    </form>
+    <div id="mrA">Click here</div>
+    <div style="background-color: red; width: 100px; height: 100px; float: left" onclick="Doimau('red')"></div>
+    <div style="background-color: blue; width: 100px; height: 100px; float: left" onclick="Doimau('blue')"></div>
+    <div style="background-color: yellow; width: 100px; height: 100px; float: left" onclick="Doimau('yellow')"></div>
+
     <script src="jquery.min.js"></script>
     <script src="socket.io/socket.io.js"></script>
     <script>
-        $(document).ready(function() {
-            var socket = io("http://localhost:3000");
+        var socket = io("http://localhost:3000");
+
+        socket.on('Server-send-data', function(name, mess){
+            
+            $("#content").append("<p>"+ name + ": "+ mess +"</p>");
         })
+        socket.on('Server-send-color', function(color){
+            $("#content").css("background-color", color);
+        })
+
+        $("#mrA").click(function() {
+                
+                let name = $("#ten").val();
+                let mess = $("#mes").val();
+                
+                if (name=='' || mess=='') {
+                    alert('vui long nhap ten va noi dung chat')
+                } else {
+                    $("#content").append("<p class='right'>"+ mess +"<br></p>");
+                    socket.emit("Client-send-data", name, mess, "red");
+                }
+                
+        })
+
+        function Doimau(color) {
+            socket.emit("Color-data", color);
+        }
+        
+        $(document).ready(function() {
+            
+            
+
+            
+        })
+
+       
     </script>
 </body>
 </html>

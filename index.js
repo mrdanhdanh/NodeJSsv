@@ -26,9 +26,18 @@ io.on('connection', function(socket){
         io.sockets.emit('Server-send-color', color);
     })
 
-    socket.on('Client-send-msg', function(user, mess){
-        socket.broadcast.emit('Server-send-msg', user, mess);
+    //chat box
+    socket.on('Client-send-msg', function(mess){
+       
+        socket.broadcast.emit('Server-send-msg', username, mess);
     })
+    var username;
+    socket.on('Client-user-reg', function(user){
+        username = user;
+        io.sockets.emit('Server-send-online', socket.id, username)
+    })
+
+
 })
 
 app.get("/", function(req, res){

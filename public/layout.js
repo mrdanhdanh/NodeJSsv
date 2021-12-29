@@ -46,6 +46,7 @@ function dangky(){
         $('#loginForm').toggle();
         $('#chatForm').toggle();
         userStat = true;
+        socket.emit("Client-user-reg", user);
     }
 }
 
@@ -62,13 +63,24 @@ function sendMsg() {
         alert('vui lòng nhập nội dung');
     } else {
         $("#msgbox").prepend("<p class='right'>"+ mess +"<br></p>");
-        socket.emit("Client-send-msg", user, mess);
+        socket.emit("Client-send-msg", mess);
 
         $("#msgText").val('');
     }
 }
 
 socket.on('Server-send-msg', function(user, mess){
-            
-    $("#msgbox").prepend("<p>"+ user + ": "+ mess +"</p>");
+    if (userStat) {
+        $("#msgbox").prepend("<p>"+ user + ": "+ mess +"</p>");
+    }
+})
+var username = [];
+var id = [];
+socket.on('Server-send-online', function (userid, user){
+    username.push(user);
+    id.push(userid);
+    $("#danhsach").html('');
+    for (let i = 0; i<username.length; i++) {
+        $("#danhsach").append("<p>"+ username[i] + "<br></p>");
+    }
 })

@@ -42,7 +42,7 @@
                 <div class="col col-md-10">
                     <div id="msgbox"></div>
                     <input type="text" name="msgText" id="msgText" required>
-                    <input type="button" value="Send">
+                    <input type="button" value="Send" onclick="sendMsg()">
                 </div>
             </div>
         </div>
@@ -52,43 +52,5 @@
     <script src="jquery.min.js"></script>
     <script src="socket.io/socket.io.js"></script>
     <script src="layout.js"></script>
-    <script>
-        var socket = io("http://localhost:3000");
-
-        socket.on('Server-send-data', function(name, mess){
-            
-            $("#message").append("<p>"+ name + ": "+ mess +"</p>");
-        })
-        socket.on('Server-send-color', function(color){
-            $("#content").css("background-color", color);
-        })
-
-        $("#mrA").click(function() {
-                
-                let name = $("#ten").val();
-                let mess = $("#mes").val();
-                
-                if (name=='' || mess=='') {
-                    alert('vui long nhap ten va noi dung chat')
-                } else {
-                    $("#message").append("<p class='right'>"+ mess +"<br></p>");
-                    socket.emit("Client-send-data", name, mess);
-                }
-                
-        })
-
-        function Doimau(color) {
-            socket.emit("Color-data", color);
-        }
-        
-        $(document).ready(function() {
-            
-            
-
-            
-        })
-
-       
-    </script>
 </body>
 </html>

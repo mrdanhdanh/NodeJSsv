@@ -25,6 +25,10 @@ io.on('connection', function(socket){
     socket.on('Color-data', function(color){
         io.sockets.emit('Server-send-color', color);
     })
+
+    socket.on('Client-send-msg', function(user, mess){
+        socket.broadcast.emit('Server-send-msg', user, mess);
+    })
 })
 
 app.get("/", function(req, res){

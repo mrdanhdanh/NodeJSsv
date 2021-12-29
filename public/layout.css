@@ -16,3 +16,21 @@ p {
 .right {
     text-align: right;
 }
+
+#content2 {
+    padding-top: 20px;
+}
+#msgbox {
+    display: flex;
+    flex-direction: column-reverse;
+    border: 1px solid red;
+    width: 100%;
+    height: 300px;
+    overflow-y: scroll;
+    overflow-wrap: anywhere;
+    background-color: #06cff3;
+    margin-bottom: 10px;
+}
+#msgText {
+    width: 90%;
+}

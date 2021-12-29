@@ -26,17 +26,32 @@
     <div id="content2" style="clear: both;">
         <div id="loginForm">
             <h3>Nhập tên của bạn</h3>
-            <input type="text" name="username" id="username" required>
-            <input type="button" value="register" id="register">
+            <input type="text" name="usernameLogin" id="usernameLogin" required>
+            <input type="button" value="register" id="register" onclick="dangky()">
         </div>
-        <div id="chatForm">
-            <div class="row"></div>
+        <div id="chatForm" style="display: none;">
+            <div class="right">
+                Xin chào <span id="username">Admin</span>
+                <input type="button" value="Logout" onclick="thoat()">
+            </div>
+            <div class="row">
+                <div class="col col-md-2">
+                    <h3>Danh sách Online</h3>
+                    <div id="danhsach"></div>
+                </div>
+                <div class="col col-md-10">
+                    <div id="msgbox"></div>
+                    <input type="text" name="msgText" id="msgText" required>
+                    <input type="button" value="Send">
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="jquery.min.js"></script>
     <script src="socket.io/socket.io.js"></script>
+    <script src="layout.js"></script>
     <script>
         var socket = io("http://localhost:3000");
 

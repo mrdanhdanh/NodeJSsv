@@ -49,8 +49,15 @@ function dangky(){
         $('#chatForm').toggle();
         userStat = true;
         socket.emit("Client-user-reg", uname);
+        socket.emit('Client-username-send', uname);
     }
 }
+socket.on('Server-send-arr', function(data){
+    $("#message").html('');
+    data.forEach(function(user){
+        $("#message").append("<p>"+ user +"</p>");
+    })
+})
 
 function thoat() {
     $('#loginForm').toggle();

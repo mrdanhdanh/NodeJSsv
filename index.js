@@ -10,6 +10,7 @@ var server = require("http").Server(app);
 var io = require("socket.io")(server);
 server.listen(3000);
 
+var arrUser = [];
 io.on('connection', function(socket){
 
     console.log('co nguoi ket noi' + socket.id);
@@ -43,7 +44,12 @@ io.on('connection', function(socket){
     socket.on('Client-chat-logout', function(){
         io.sockets.emit('Server-logout-chat-info', socket.id);
     })
-
+    //test mảng
+    
+    socket.on('Client-username-send', function(user){
+        arrUser.push(user);
+        io.sockets.emit('Server-send-arr', arrUser);
+    })
 
 })
 

@@ -34,7 +34,10 @@ io.on('connection', function(socket){
     var username;
     socket.on('Client-user-reg', function(user){
         username = user;
-        io.sockets.emit('Server-send-online', socket.id, username)
+        io.sockets.emit('Server-send-online', socket.id, username);
+    })
+    socket.on('Client-chat-logout', function(){
+        io.sockets.emit('Server-logout-chat-info', socket.id);
     })
 
 

@@ -54,6 +54,7 @@ function thoat() {
     $('#loginForm').toggle();
     $('#chatForm').toggle();
     userStat = false;
+    socket.emit('Client-chat-logout');
 }
 
 function sendMsg() {
@@ -74,11 +75,21 @@ socket.on('Server-send-msg', function(user, mess){
         $("#msgbox").prepend("<p>"+ user + ": "+ mess +"</p>");
     }
 })
+
 var username = [];
 var id = [];
 socket.on('Server-send-online', function (userid, user){
     username.push(user);
     id.push(userid);
+    $("#danhsach").html('');
+    for (let i = 0; i<username.length; i++) {
+        $("#danhsach").append("<p>"+ username[i] + "<br></p>");
+    }
+})
+socket.on('Server-logout-chat-info', function(userid){
+    let i = id.indexOf(userid);
+    username.splice(i,1);
+    id.splice(i,1);
     $("#danhsach").html('');
     for (let i = 0; i<username.length; i++) {
         $("#danhsach").append("<p>"+ username[i] + "<br></p>");

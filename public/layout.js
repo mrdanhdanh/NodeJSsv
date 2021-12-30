@@ -109,9 +109,11 @@ socket.on('Server-send-online', function (userid, user){
 socket.on('Server-logout-chat-info', function(userid){
     if (userStat) {
         let i = id.indexOf(userid);
-        username.splice(i,1);
-        id.splice(i,1);
-        updateOnl();
+        if (i != -1) {
+            username.splice(i,1);
+            id.splice(i,1);
+            updateOnl();
+        }
     } 
 })
 socket.on('Server-send-up-onl', function(userid,user){

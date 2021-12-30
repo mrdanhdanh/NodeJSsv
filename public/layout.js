@@ -35,18 +35,20 @@ $(document).ready(function() {
 
 
 //chat box
-var user;
+var username = [];
+var id = [];
+var uname;
 var userStat = false;
 function dangky(){
-    user = $('#usernameLogin').val();
-    if (user == '') {
+    uname = $('#usernameLogin').val();
+    if (uname == '') {
         alert("vui lòng nhập tên");
     } else {
-        $('#username').text(user);
+        $('#username').text(uname);
         $('#loginForm').toggle();
         $('#chatForm').toggle();
         userStat = true;
-        socket.emit("Client-user-reg", user);
+        socket.emit("Client-user-reg", uname);
     }
 }
 
@@ -54,6 +56,9 @@ function thoat() {
     $('#loginForm').toggle();
     $('#chatForm').toggle();
     userStat = false;
+    username = [];
+    id = [];
+    $("#msgbox").html('');
     socket.emit('Client-chat-logout');
 }
 
@@ -76,22 +81,35 @@ socket.on('Server-send-msg', function(user, mess){
     }
 })
 
-var username = [];
-var id = [];
-socket.on('Server-send-online', function (userid, user){
-    username.push(user);
-    id.push(userid);
+
+
+function updateOnl() {
     $("#danhsach").html('');
     for (let i = 0; i<username.length; i++) {
         $("#danhsach").append("<p>"+ username[i] + "<br></p>");
+    }
+}
+socket.on('Server-send-online', function (userid, user){
+    if (userStat) {
+        username.push(user);
+        id.push(userid);
+        updateOnl();
+        if (socket.id != userid) {
+            updateOnl();
+            socket.emit('Client-up-online', uname, userid);
+        }
     }
 })
 socket.on('Server-logout-chat-info', function(userid){
-    let i = id.indexOf(userid);
-    username.splice(i,1);
-    id.splice(i,1);
-    $("#danhsach").html('');
-    for (let i = 0; i<username.length; i++) {
-        $("#danhsach").append("<p>"+ username[i] + "<br></p>");
-    }
+    if (userStat) {
+        let i = id.indexOf(userid);
+        username.splice(i,1);
+        id.splice(i,1);
+        updateOnl();
+    } 
+})
+socket.on('Server-send-up-onl', function(userid,user){
+    username.push(user);
+    id.push(userid);
+    updateOnl();
 })

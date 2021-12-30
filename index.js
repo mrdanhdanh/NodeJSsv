@@ -36,6 +36,9 @@ io.on('connection', function(socket){
         username = user;
         io.sockets.emit('Server-send-online', socket.id, username);
     })
+    socket.on('Client-up-online', function(user, forid){
+        io.sockets.in(forid).emit('Server-send-up-onl', socket.id, user)
+    })
     socket.on('Client-chat-logout', function(){
         io.sockets.emit('Server-logout-chat-info', socket.id);
     })

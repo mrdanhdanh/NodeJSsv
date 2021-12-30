@@ -74,6 +74,22 @@ function sendMsg() {
         $("#msgText").val('');
     }
 }
+$("#msgText").on('keydown', function(e) {
+    if (e.keyCode == 13) {
+        e.preventDefault();
+        $("#btnSend").click();
+    }
+})
+
+// var msgEnter = document.getElementById("msgText");
+// msgEnter.addEventListener("keyup", function(event) {
+//   if (event.keyCode == 13) {
+//     // Cancel the default action, if needed
+//     event.preventDefault();
+//     // Trigger the button element with a click
+//     document.getElementById("btnSend").click();
+//   }
+// });
 
 socket.on('Server-send-msg', function(user, mess){
     if (userStat) {

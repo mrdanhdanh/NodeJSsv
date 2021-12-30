@@ -16,6 +16,7 @@ io.on('connection', function(socket){
 
     socket.on('disconnect', function(){
         console.log(socket.id + 'ngat ket noi');
+        io.sockets.emit('Server-logout-chat-info', socket.id);
     });
 
     socket.on('Client-send-data', function(name, mess){
